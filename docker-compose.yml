@@ -8,11 +8,12 @@ services:
     links:
       - netstats
     entrypoint: /root/start.sh
-    command: '--datadir=~/.ethereum/devchain --shh --nodekeyhex=091bd6067cb4612df85d9c1ff85cc47f259ced4d4cd99816b14f35650f59c322 --ipcapi="admin,db,eth,debug,miner,net,shh,txpool,personal,web3" --rpcapi "db,personal,eth,net,web3" --rpccorsdomain="*" --networkid=456719 --rpc --rpcaddr="0.0.0.0"'
+    command: '--networkid=42 --shh --nodekeyhex=091bd6067cb4612df85d9c1ff85cc47f259ced4d4cd99816b14f35650f59c322 --rpcapi "db,personal,eth,net,web3,shh" --rpccorsdomain="*" --rpc --rpcaddr="0.0.0.0"'
     volumes:
+      - ./data:/root/.ethereum:rw
       - ./files/password:/root/files/password:ro
       - ./files/genesis.json:/root/files/genesis.json:ro
-      - ./files/keystore:/root/.ethereum/devchain/keystore:rw
+      - ./files/keystore:/root/.ethereum/keystore:rw
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "30303:30303"
@@ -28,11 +29,11 @@ services:
     volumes:
       - ./files/password:/root/files/password:ro
       - ./files/genesis.json:/root/files/genesis.json:ro
-      - ./files/keystore:/root/.ethereum/devchain/keystore:rw
+      - ./files/keystore:/root/.ethereum/keystore:rw
       - /etc/localtime:/etc/localtime:ro
-      - ./data:/root/.ethereum:rw
+      - ./ethash:/root/.ethash:rw
 
-    command: '--datadir=~/.ethereum/devchain --shh --rpccorsdomain="*" --networkid=456719 --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303"'
+    command: '--networkid=42 --shh --rpccorsdomain="*" --rpc --bootnodes="enode://288b97262895b1c7ec61cf314c2e2004407d0a5dc77566877aad1f2a36659c8b698f4b56fd06c4a0c0bf007b4cfb3e7122d907da3b005fa90e724441902eb19e@XXX:30303"'
   netstats:
     build: eth-netstats
     restart: on-failure

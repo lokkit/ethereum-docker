@@ -1,4 +1,14 @@
-FROM ethereum/client-go
+FROM ubuntu:16.04
+
+RUN apt update && \
+  apt install -y software-properties-common && \
+  add-apt-repository -y ppa:ethereum/ethereum && \
+  apt update && \
+  apt install -y ethereum
+
+EXPOSE 8545
+EXPOSE 30303
+
 
 RUN apt-get update &&\
     apt-get install -y curl git-core &&\
