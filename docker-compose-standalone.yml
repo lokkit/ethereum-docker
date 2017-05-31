@@ -6,7 +6,7 @@ services:
     volumes:
       - ./files/password:/root/files/password:ro
       - ./files/genesis.json:/root/files/genesis.json:ro
-      - ./files/keystore:/root/.ethereum/devchain/keystore:rw
+      - ./files/keystore:/root/.ethereum/keystore:rw
     ports:
       - "30303:30303"
       - "30303:30303/udp"
