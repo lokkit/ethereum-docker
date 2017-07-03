@@ -1,14 +1,24 @@
 FROM ubuntu:16.04
 
-RUN apt update && \
-  apt install -y software-properties-common && \
-  add-apt-repository -y ppa:ethereum/ethereum && \
-  apt update && \
-  apt install -y ethereum
+RUN apt update
+RUN apt install -y software-properties-common
+RUN add-apt-repository ppa:longsleep/golang-backports
+RUN apt update
+# install build dependencies for geth
+RUN apt install -y make build-essential golang git-core golang-go
+
+# install local local geth version
+RUN git clone https://github.com/lokkit/go-ethereum /opt/go-ethereum
+WORKDIR /opt/go-ethereum
+RUN git checkout bugfix/shh_subscribe
+
+RUN make geth
+
+CMD /bin/bash
+RUN cp build/bin/geth /usr/local/sbin
 
 EXPOSE 8545
 EXPOSE 30303
-
 
 RUN apt-get update &&\
     apt-get install -y curl git-core &&\
